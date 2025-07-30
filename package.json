@@ -1,0 +1,33 @@
+{
+  "name": "online-exam-portal-backend",
+  "version": "1.0.0",
+  "description": "Backend server for online exam portal with authentication, real-time, and scheduling features",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hariharan-081206/Online-exam-portal-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hariharan-081206/Online-exam-portal-backend/issues"
+  },
+  "homepage": "https://github.com/Hariharan-081206/Online-exam-portal-backend#readme",
+  "keywords": [],
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.2.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^8.16.5",
+    "nodemon": "^3.1.10"
+  }
+}
