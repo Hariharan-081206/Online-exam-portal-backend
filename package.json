@@ -28,6 +28,8 @@
     "express-validator": "^7.2.1",
     "mongo": "^0.1.0",
     "mongoose": "^8.16.5",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
