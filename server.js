@@ -3,19 +3,26 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+//import examroutes from './routers/examrouter.js';
+import questionRoutes from './routers/questionRoutes.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
+// Body parser middleware
+app.use(express.json());
 
 // Session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'default_secret',
   resave: false,
   saveUninitialized: false,
 }));
 
+// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -37,17 +44,15 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-// Home route
+// Routes
 app.get('/', (req, res) => {
   res.send('<a href="/auth/google">Login with Google</a>');
 });
 
-// Google Auth Route
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-// Callback Route
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
@@ -55,14 +60,27 @@ app.get('/auth/google/callback',
   }
 );
 
-// Logout Route (optional)
 app.get('/logout', (req, res) => {
   req.logout(() => {
     res.redirect('/');
   });
 });
 
-// Server start
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
+// Exam routes
+//app.use('/api/exams', examroutes);
+app.use('/api/questions', questionRoutes);
+
+// Connect to MongoDB and start server
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('✅ MongoDB connected');
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running at http://localhost:${PORT}`);
+  });
+})
+.catch((err) => {
+  console.error('❌ MongoDB connection error:', err.message);
 });
